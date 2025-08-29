@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Indústria do Refrigerante — Guia Informativo Acessível</title>
+  <meta name="description" content="Guia informativo e acessível sobre a indústria do refrigerante: história, mercado, produção, impactos e tendências." />
+  <style>
+    :root {
+      /* Azul escuro para alto contraste em fundo branco */
+      --brand-blue: #0a3d91;
+      --brand-blue-2: #164da8;
+      --bg: #ffffff;
+      --text: var(--brand-blue);
+      --maxw: 1100px;
+      --radius: 18px;
+      --shadow: 0 6px 20px rgba(10, 61, 145, 0.08);
+
+      /* Acessibilidade: tamanhos de texto escaláveis */
+      --base-font: 18px;      /* ponto de partida confortável */
+      --scale: 1;             /* será atualizado pelo controle de zoom */
+
+      /* Espaçamento acessível */
+      --lh: 1.7;
+      --para-gap: 1em;
+
+      /* Transições suaves */
+      --ease: cubic-bezier(.2, .7, .2, 1);
+      --dur: .25s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :root { --dur: 0s; --ease: linear; }
+      * { transition: none !important; animation: none !important; }
+    }
+
+    html {
+      font-size: calc(var(--base-font) * var(--scale));
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: var(--lh);
+    }
+
+    a { color: var(--brand-blue-2); text-decoration-thickness: .12em; text-underline-offset: .18em; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #2a6ff2; outline-offset: 3px; }
+
+    .skip-link {
+      position: absolute; left: 0; top: -40px; padding: .6em 1em; background: #e6efff; border-radius: 10px; box-shadow: var(--shadow);
+    }
+    .skip-link:focus { top: 10px; }
+
+    header {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: blur(6px);
+      background: rgba(255,255,255,.9); border-bottom: 1px solid #e8eefb;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 1rem; }
+
+    .topbar { display: grid; gap: 1rem; align-items: center; grid-template-columns: 1fr auto; }
+
+    nav ul { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: 0; padding: 0; list-style: none; }
+    nav a { font-weight: 600; }
+
+    .controls { display: flex; gap: .5rem; align-items: center; }
+    .btn {
+      border: 1px solid #c7d6fb; background: #f2f6ff; color: var(--brand-blue);
+      padding: .6em .9em; border-radius: 12px; cursor: pointer; font-weight: 700;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+      box-shadow: var(--shadow);
+    }
+    .btn:hover { transform: translateY(-1px); background: #e6efff; }
+    .btn:active { transform: translateY(0); }
+
+    main { padding: 2rem 0; }
+    section { scroll-margin-top: 90px; }
+
+    .hero {
+      display: grid; gap: 1.2rem; align-items: center; padding: 2rem; border-radius: var(--radius);
+      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      box-shadow: var(--shadow);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .hero:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(10,61,145,.12); }
+
+    h1 { font-size: clamp(1.8rem, 1.2rem + 2vw, 3rem); margin: 0; letter-spacing: .3px; }
+    h2 { font-size: clamp(1.4rem, 1rem + 1.5vw, 2.2rem); margin-top: 2.2rem; margin-bottom: .6rem; }
+    h3 { font-size: clamp(1.1rem, .9rem + .8vw, 1.5rem); margin-top: 1.6rem; margin-bottom: .4rem; }
+
+    p, li { font-size: 1rem; }
+    p { margin: 0 0 var(--para-gap); }
+
+    .grid {
+      display: grid; gap: 1.2rem; grid-template-columns: 1fr; 
+    }
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 2fr 1fr; }
+    }
+
+    .card { background: #fff; border: 1px solid #e8eefb; border-radius: var(--radius); padding: 1.2rem; box-shadow: var(--shadow); }
+
+    .list-check { padding-left: 1.2em; }
+    .list-check li { margin-bottom: .4em; }
+
+    .kpi {
+      display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; margin-top: .6rem;
+    }
+    @media (min-width: 700px) { .kpi { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+    .kpi .tile { text-align: center; padding: 1rem; border-radius: 14px; border: 1px solid #e8eefb; background: #fafcff; box-shadow: var(--shadow); }
+    .kpi .num { font-size: clamp(1.3rem, 1rem + 1.4vw, 2rem); font-weight: 900; letter-spacing: .3px; }
+    .kpi .lbl { font-weight: 600; opacity: .9; }
+
+    footer { border-top: 1px solid #e8eefb; padding: 2rem 0; margin-top: 2rem; }
+
+    /* Tabela acessível */
+    table { width: 100%; border-collapse: collapse; border: 1px solid #e8eefb; box-shadow: var(--shadow); border-radius: 14px; overflow: hidden; display: block; }
+    thead { background: #f2f6ff; }
+    th, td { padding: .8rem; text-align: left; border-bottom: 1px solid #eef3ff; }
+    caption { caption-side: top; padding: .6rem; font-weight: 800; }
+
+    /* Indicadores visuais de foco e interação */
+    details { border: 1px solid #e8eefb; border-radius: 12px; padding: .8rem 1rem; background: #fbfdff; box-shadow: var(--shadow); }
+    details + details { margin-top: .6rem; }
+    summary { cursor: pointer; font-weight: 800; }
+
+    /* Rodapé pequeno */
+    .small { font-size: .95rem; opacity: .95; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <header role="banner">
+    <div class="wrap topbar">
+      <div>
+        <strong aria-label="Título do site" style="font-size:1.1rem">Indústria do Refrigerante</strong>
+        <nav aria-label="Navegação principal">
+          <ul>
+            <li><a href="#visao-geral">Visão geral</a></li>
+            <li><a href="#mercado">Mercado</a></li>
+            <li><a href="#producao">Produção</a></li>
+            <li><a href="#impactos">Impactos</a></li>
+            <li><a href="#regulacao">Regulação</a></li>
+            <li><a href="#tendencias">Tendências</a></li>
+            <li><a href="#fontes">Fontes</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="controls" aria-label="Controles de acessibilidade">
+        <button class="btn" id="decrease" aria-label="Diminuir tamanho do texto" title="Diminuir texto">A−</button>
+        <button class="btn" id="increase" aria-label="Aumentar tamanho do texto" title="Aumentar texto">A+</button>
+        <button class="btn" id="reset" aria-label="Restaurar tamanho padrão" title="Restaurar">Reset</button>
+        <span aria-live="polite" class="small" id="announce" style="margin-left:.5rem"></span>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo" class="wrap" role="main">
+    <section class="hero" id="visao-geral" aria-labelledby="h1">
+      <div>
+        <h1 id="h1">Indústria do Refrigerante</h1>
+        <p>
+          Este site apresenta uma visão clara e acessível sobre a cadeia produtiva de refrigerantes: do desenvolvimento
+          das fórmulas ao envase, passando por mercado, impactos e tendências de inovação.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card" aria-labelledby="historia">
+        <h2 id="historia">História & Visão Geral</h2>
+        <p>
+          Os refrigerantes surgiram no século XIX, popularizando-se com as primeiras engarrafadoras e fontes de soda.
+          Ao longo do século XX, marcas globais ampliaram a distribuição e criaram categorias como colas, citrus,
+          ginger ale e tônicas. Hoje, o portfólio inclui versões com e sem açúcar, sabores regionais e funcionais.
+        </p>
+        <ul class="list-check" aria-label="Pontos-chave da história">
+          <li>Expansão impulsionada por engarrafamento, pasteurização fria e cadeias de frio.</li>
+          <li>Marketing massivo e padronização de embalagens (vidro → lata → PET).</li>
+          <li>Diversificação para reduzir açúcar e ampliar variedade.</li>
+        </ul>
+
+        <div class="kpi" role="group" aria-label="Indicadores ilustrativos">
+          <div class="tile">
+            <div class="num" aria-label="Número de categorias">10+</div>
+            <div class="lbl">Categorias</div>
+          </div>
+          <div class="tile">
+            <div class="num" aria-label="Canais de venda">4</div>
+            <div class="lbl">Canais-chave</div>
+          </div>
+          <div class="tile">
+            <div class="num" aria-label="Principais embalagens">3</div>
+            <div class="lbl">Embalagens</div>
+          </div>
+          <div class="tile">
+            <div class="num" aria-label="Etapas produtivas">6</div>
+            <div class="lbl">Etapas</div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card" aria-labelledby="glossario">
+        <h3 id="glossario">Glossário rápido</h3>
+        <dl>
+          <dt><strong>Brix</strong></dt>
+          <dd>Unidade que expressa sólidos solúveis (principalmente açúcar) no xarope/base.</dd>
+          <dt><strong>Concentrado</strong></dt>
+          <dd>Mistura de aromatizantes, ácidos, corantes e adoçantes que será diluída.</dd>
+          <dt><strong>Carbonatação</strong></dt>
+          <dd>Incorporação de dióxido de carbono (CO₂) que gera efervescência.</dd>
+          <dt><strong>RTD</strong></dt>
+          <dd>“Ready to drink”: bebida pronta para consumo.</dd>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="card" id="mercado" aria-labelledby="mercado-h2">
+      <h2 id="mercado-h2">Mercado & Canais</h2>
+      <p>
+        O mercado de refrigerantes é altamente competitivo e concentrado em grandes grupos, com forte presença de
+        engarrafadoras regionais e distribuidores independentes. Os principais canais são: varejo alimentar, 
+        conveniência, food service e atacarejo.
+      </p>
+      <details>
+        <summary>Dinâmica competitiva</summary>
+        <ul>
+          <li>Liderança de marcas globais e participação crescente de marcas próprias.</li>
+          <li>Promoções e packs econômicos influenciam decisão de compra.</li>
+          <li>Regulações sobre açúcar afetam portfólio e precificação.</li>
+        </ul>
+      </details>
+
+      <table aria-describedby="mercado-h2">
+        <caption>Exemplos de embalagens e ocasiões</caption>
+        <thead>
+          <tr>
+            <th scope="col">Embalagem</th>
+            <th scope="col">Ocasião típica</th>
+            <th scope="col">Vantagens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lata 350 ml</td>
+            <td>Consumo individual, on-the-go</td>
+            <td>Gelam rápido; porção controlada</td>
+          </tr>
+          <tr>
+            <td>Garrafa PET 2 L</td>
+            <td>Compartilhamento familiar</td>
+            <td>Custo por litro menor</td>
+          </tr>
+          <tr>
+            <td>Vidro retornável</td>
+            <td>Bares/restaurantes</td>
+            <td>Reutilização; percepção premium</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="producao" aria-labelledby="producao-h2">
+      <h2 id="producao-h2">Como é produzido</h2>
+      <ol>
+        <li>Desenvolvimento da fórmula (definição de sabor, acidez, doçura e aroma).</li>
+        <li>Preparação do concentrado/xarope com controle de Brix e pH.</li>
+        <li>Tratamento de água (filtração, osmose e padronização de minerais).</li>
+        <li>Mescla e pasteurização fria, quando aplicável.</li>
+        <li>Carbonatação com CO₂ de grau alimentício.</li>
+        <li>Envase asséptico, rotulagem, paletização e distribuição.</li>
+      </ol>
+      <p class="small">Observação: processos variam por receita e regulamentação local.</p>
+    </section>
+
+    <section class="card" id="impactos" aria-labelledby="impactos-h2">
+      <h2 id="impactos-h2">Impactos & Sustentabilidade</h2>
+      <ul>
+        <li><strong>Ambiental:</strong> consumo de água, uso de embalagens (PET, alumínio, vidro) e logística.</li>
+        <li><strong>Social:</strong> empregos diretos/indiretos, patrocínios e programas comunitários.</li>
+        <li><strong>Saúde pública:</strong> discussão sobre açúcar, calorias e opções de baixo/zero.</li>
+      </ul>
+      <details>
+        <summary>Boas práticas comuns</summary>
+        <ul>
+          <li>Aumento de conteúdo reciclado em embalagens e expansão de retornáveis.</li>
+          <li>Eficiência hídrica e energética nas plantas.</li>
+          <li>Portfólios com menor teor de açúcar e transparência de rótulo.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="card" id="regulacao" aria-labelledby="regulacao-h2">
+      <h2 id="regulacao-h2">Regulação</h2>
+      <p>
+        A indústria segue normas sanitárias, de rotulagem e fiscais que variam por país. Em diversos mercados, há
+        políticas para reduzir o consumo de açúcar em bebidas, como taxação específica ou metas voluntárias.
+      </p>
+    </section>
+
+    <section class="card" id="tendencias" aria-labelledby="tendencias-h2">
+      <h2 id="tendencias-h2">Tendências & Inovação</h2>
+      <ul>
+        <li>Refrigerantes com ingredientes naturais e aromas de origem.</li>
+        <li>Versões zero e de baixo teor calórico com novos adoçantes.</li>
+        <li>Sabores locais/“edições limitadas” para engajamento.</li>
+        <li>Embalagens circulares: reciclado, retornável e refil.</li>
+        <li>Digitalização de logística e vending inteligente.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="fontes" aria-labelledby="fontes-h2">
+      <h2 id="fontes-h2">Fontes & Leitura adicional</h2>
+      <p>
+        Este material é introdutório. Consulte também órgãos reguladores, associações do setor e relatórios públicos de
+        fabricantes para dados atualizados.
+      </p>
+      <ul>
+        <li>Agências sanitárias nacionais e guias de rotulagem.</li>
+        <li>Associações de bebidas/refrigerantes.</li>
+        <li>Relatórios de sustentabilidade e financeiros de fabricantes e engarrafadoras.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="wrap small">
+      <p>
+        © <span id="year"></span> — Conteúdo educativo. Este site prioriza acessibilidade: controles de zoom, contraste 
+        e foco visível; suporta leitores de tela e navegação por teclado.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Controles de zoom acessíveis
+    (function(){
+      const root = document.documentElement;
+      const inc = document.getElementById('increase');
+      const dec = document.getElementById('decrease');
+      const reset = document.getElementById('reset');
+      const announce = document.getElementById('announce');
+
+      const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+      const readScale = () => parseFloat(getComputedStyle(root).getPropertyValue('--scale')) || 1;
+      const writeScale = (s) => root.style.setProperty('--scale', s.toFixed(2));
+      const announceScale = (s) => { announce.textContent = `Zoom: ${(s*100).toFixed(0)}%`; };
+
+      function change(delta){
+        const next = clamp(readScale() + delta, 0.7, 2.2); // limites seguros
+        writeScale(next);
+        localStorage.setItem('site-scale', next);
+        announceScale(next);
+      }
+
+      inc.addEventListener('click', () => change(0.1));
+      dec.addEventListener('click', () => change(-0.1));
+      reset.addEventListener('click', () => { writeScale(1); localStorage.removeItem('site-scale'); announceScale(1); });
+
+      // Teclado: Ctrl+ (ou "+") e Ctrl- ajustam o zoom do site
+      window.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && (e.key === '+' || e.key === '=')) { e.preventDefault(); change(0.1); }
+        if (e.ctrlKey && (e.key === '-' )) { e.preventDefault(); change(-0.1); }
+        if (e.ctrlKey && (e.key.toLowerCase() === '0')) { e.preventDefault(); writeScale(1); announceScale(1); }
+      });
+
+      // Persistir preferência
+      const saved = parseFloat(localStorage.getItem('site-scale'));
+      if (!Number.isNaN(saved)) { writeScale(saved); announceScale(saved); } else { announceScale(1); }
+
+      // Ano no rodapé
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
